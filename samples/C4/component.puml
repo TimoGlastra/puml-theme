@@ -1,0 +1,30 @@
+@startuml Transport Container
+
+!include ../../C4/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+System_Ext(sender, "Sender Agent", "Sends messages to the receiver agent through the mediator agent")
+System_Ext(receiver, "Receiver Agent", "Receives messages from sender agents through the mediator agent")
+Container(agent, "Agent", "TypeScript")
+
+Container_Boundary(transport, "Transport") {
+    Component(dispatcher, "Dispatcher", "", "Handler slient side routing")
+    Component(httpinbound, "HTTP Inbound Transporter", "HTTP", "HTTP server handling inbound HTTP connections")
+    Component(httpoutbound, "HTTP Outbound Transporter", "HTTP", "HTTP client sending outbound HTTP connections")
+    Component(wsinbound, "WebSocket Inbound Transporter", "WebSocket", "WebSocket server handling incoming WebSocket connections")
+    Component(wsoutbound, "WebSocket Outbound Transporter", "WebSocket", "WebSocket client handling outbound WebSocket connections")
+}
+
+Rel(sender, httpinbound, "Send messages", "DIDComm")
+Rel(sender, wsinbound, "Send messages", "DIDComm")
+Rel(httpinbound, dispatcher, "Send messages", "DIDComm")
+Rel(wsinbound, dispatcher, "Send messages", "DIDComm")
+
+BiRel(httpinbound, receiver, "Forwards messages to", "DIDComm")
+BiRel(wsinbound, receiver, "Forwards messages to", "DIDComm")
+Rel(dispatcher, httpoutbound, "Send messages", "DIDComm")
+Rel(dispatcher, wsoutbound, "Send messages", "DIDComm")
+BiRel(dispatcher, agent, "Do", "")
+
+@enduml
