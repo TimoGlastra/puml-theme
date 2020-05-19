@@ -56,9 +56,6 @@ endlegend
 !if ($descr == "") && ($sprite != "")
 !return '<$'+$sprite+'>\n=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//'
 !endif
-!if ($descr != "") && ($sprite == "") && ($techn == "")
-!return '=='+$label+'\n\n '+$descr
-!endif
 !if ($descr != "") && ($sprite == "")
 !return '=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//\n\n '+$descr
 !endif
